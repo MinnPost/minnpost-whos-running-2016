@@ -17,6 +17,9 @@
         </ul>
     </div>
 
+    <div id="total-contests">
+    </div>
+
     {% for contest in contests %}
 
     <div class="election{{contest.classes}}">
@@ -39,9 +42,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <script type="text/javascript">
+
+    function showTotal() {
+        var total = $('.election').length
+        var displaying = 0
+        $('.election').each(function(){
+            if( !$(this).hasClass("hidden") ) {
+                displaying++
+            }
+        });
+
+        $('#total-contests').html("Displaying <strong>" + displaying + "</strong> " +
+                                   "races of <strong>" + total + "</strong> total.");
+    };
+
     $('.filter-links a').click(function(){
         filter = $(this).data("filter")
-        console.log(filter)
 
         $('.election').each(function(){
             if ($(this).hasClass(filter)) {
@@ -51,12 +67,16 @@
             }
         });
 
-    if (filter == "reset") {
-        $('.election').each(function(){
-            $(this).removeClass("hidden")
-        })
-    }
+        if (filter == "reset") {
+            $('.election').each(function(){
+                $(this).removeClass("hidden")
+            })
+        }
 
+        showTotal();
+    });
 
+    $(document).ready(function() {
+        showTotal();
     });
 </script>
