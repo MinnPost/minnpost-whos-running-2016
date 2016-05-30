@@ -1,9 +1,22 @@
 <link rel="stylesheet" href="https://s3.amazonaws.com/data.minnpost/projects/minnpost-styles/0.0.6-alpha/minnpost-styles.min.css" type="text/css">
 
+<div class="mp">
 
-<div class="election">
-  <h4></h4>
-  
-  Incumbent:
-  
+    {% for contest in contests %}
+
+    <div class="election{{contest.classes}}">
+      <h4>{{contest.title}}</h4>
+
+      Candidates:
+
+      <ul>
+      {% for candidate in contest.candidates %}
+        <li class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</li>
+      {% endfor %}
+      </ul>
+
+    </div>
+
+    {% endfor %}
+
 </div>
