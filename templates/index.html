@@ -5,6 +5,7 @@
     .filter-links li a {padding:5px;}
     .filtering, .filtering a {color: #fff!important; background-color:#0793AB; border-radius: 5px;}
     .mp .election {padding: 1em; border-bottom: 1px solid #ccc;}
+    .mp .map-link {margin: -1em 0 1em;}
 </style>
 
 
@@ -29,10 +30,9 @@
     <div class="election{{contest.classes}}">
       <div class="row">
         <h4>{{contest.title}}</h4>
-        <div class="map-link"><a href="{{contest.map_url}}" target="_blank">District map</a></div>
-
+        <div class="map-link"><a href="{{contest.map_url}}" target="_blank">District map</a> [PDF]</div>
         <div class="current-race column-medium-50">
-          Incumbent:
+          <strong>Incumbent:</strong>
 
           <ul>
             {% if contest.incumbent[0] == "Open seat" %}
@@ -45,9 +45,9 @@
           </ul>
           {% if contest.candidates %}
           {% if contest.incumbent[0] != "Open seat" %}
-            Challengers:
+            <strong>Challengers:</strong>
           {% else %}
-            Candidates:
+            <strong>Candidates:</strong>
           {% endif %}
 
 
@@ -69,7 +69,7 @@
             <tbody>
             {% for candidate in contest.last_election_results %}
               <tr>
-                  <td>{{candidate.name}} (<span class="color-political-{{candidate.party.lower()}}">{{candidate.party}}</span>)</td>
+                  <td><span class="color-political-{{candidate.party.lower()}}">{{candidate.name}} ({{candidate.party}})</span></td>
                   <td>{{candidate.percentage}}%</td>
               </tr>
             {% endfor %}
