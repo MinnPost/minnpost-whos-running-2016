@@ -13,6 +13,7 @@
         Filter:
         <ul>
             <li><a href="#" data-filter="uncontested">Uncontested</a></li>
+            <li><a href="#" data-filter="open-seat">Open Seat</a></li>
             <li><a href="#" data-filter="dfl-primary">DFL Primary</a></li>
             <li><a href="#" data-filter="gop-primary">R Primary</a></li>
             <li><a href="#" data-filter="reset">Show All</a></li>
@@ -27,13 +28,31 @@
     <div class="election{{contest.classes}}">
       <h4>{{contest.title}}</h4>
 
-      Candidates:
+      Incumbent:
+
+      <ul>
+        {% if contest.incumbent[0] == "Open seat" %}
+        <li>None - open seat</li>
+
+        {% else %}
+        <li><span class="color-political-{{contest.incumbent[1].lower()}}">{{contest.incumbent[0]}} ({{contest.incumbent[1]}})</span> (First elected: {{contest.incumbent[2]}})</li>
+
+        {% endif %}
+      </ul>
+      {% if contest.candidates %}
+      {% if contest.incumbent[0] != "Open seat" %}
+        Challengers:
+      {% else %}
+        Candidates:
+      {% endif %}
+
 
       <ul>
       {% for candidate in contest.candidates %}
         <li class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</li>
       {% endfor %}
       </ul>
+      {% endif %}
 
       Election {{contest.last_election_year}} result:
       <table>

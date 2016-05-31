@@ -4,6 +4,30 @@ from collections import OrderedDict
 
 app = Flask(__name__)
 
+def incumbent_data():
+    incumbents = {}
+    #senate
+    with open("data/senate-incumbents.csv", "r") as f:
+        reader = csv.reader(f, delimiter=",")
+        for row in reader:
+            district = "State Senator District " + row[0]
+            name = row[1]
+            year_elected = row[3]
+
+            incumbents[district] = {"name": name, "year_elected": year_elected}
+
+    #house
+    with open("data/house-incumbents.csv", "r") as f:
+        reader = csv.reader(f, delimiter=",")
+        for row in reader:
+            district = "State Representative District " + row[0]
+            name = row[1]
+            year_elected = row[3]
+
+            incumbents[district] = {"name": name, "year_elected": year_elected}
+
+    return incumbents
+
 def prev_election_data():
 
     election_results = {}
@@ -112,7 +136,24 @@ def formatted_elections(elections):
         if gopers > 1:
             classes += " gop-primary"
 
-        #tk incumbent handling to add open class and to move incumbent up list
+        #incumbent handling
+        incumbents = incumbent_data()
+        if title in incumbents:
+            incumbent_name = incumbents[title]["name"]
+            incumbent_year_elected = incumbents[title]["year_elected"]
+
+            incumbent_running = False
+
+            for i in range(0, len(candidates)):
+                if candidates[i][0] == incumbent_name:
+                    incumbent_candidate = candidates.pop(i)
+                    incumbent_candidate.append(incumbent_year_elected)
+                    incumbent_running = True
+                    break
+
+            if not incumbent_running:
+                incumbent_candidate = ["Open seat","",""]
+                classes += " open-seat"
 
         #previous elections
         if "State Senator" in title:
@@ -126,6 +167,7 @@ def formatted_elections(elections):
         if "State Senator" in title or "State Representative" in title:
             f_elections.append({
                                     "title": title,
+                                    "incumbent": incumbent_candidate,
                                     "candidates": candidates,
                                     "classes": classes,
                                     "last_election_year": last_election_year,
