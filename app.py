@@ -116,6 +116,20 @@ def candidate_data():
 
     return elections
 
+def map_url(election_title):
+    if "State Representative" in election_title:
+        district = election_title[30:]
+        if len(district) == 2:
+            district = "0" + district
+        url = "http://www.gis.leg.mn/redist2010/Legislative/L2012/maps/house/" + district + ".pdf"
+    else:
+        district = election_title[23:]
+        if len(district) == 1:
+            district = "0" + district
+        url = "http://www.gis.leg.mn/redist2010/Legislative/L2012/maps/senate/" + district + ".pdf"
+
+    return url
+
 def formatted_elections(elections):
 
     f_elections = []
@@ -167,6 +181,7 @@ def formatted_elections(elections):
         if "State Senator" in title or "State Representative" in title:
             f_elections.append({
                                     "title": title,
+                                    "map_url": map_url(title),
                                     "incumbent": incumbent_candidate,
                                     "candidates": candidates,
                                     "classes": classes,

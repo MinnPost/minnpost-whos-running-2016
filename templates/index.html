@@ -27,7 +27,7 @@
 
     <div class="election{{contest.classes}}">
       <h4>{{contest.title}}</h4>
-
+      <div class="map-link"><a href="{{contest.map_url}}" target="_blank">District map</a></div>
       Incumbent:
 
       <ul>
@@ -49,7 +49,7 @@
 
       <ul>
       {% for candidate in contest.candidates %}
-        <li class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</li>
+        <li><span class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</span></li>
       {% endfor %}
       </ul>
       {% endif %}
