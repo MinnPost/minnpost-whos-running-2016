@@ -4,6 +4,71 @@ from collections import OrderedDict
 
 app = Flask(__name__)
 
+def prev_election_data():
+
+    election_results = {}
+
+    #senate results
+    with open('data/2012_statesenateresults.csv', 'r') as f:
+        reader = csv.reader(f, delimiter=";")
+        for row in reader:
+            district = row[4]
+            name = row[7].title()
+            party = row[10]
+            percentage = row[14]
+
+            inserted = False
+
+            if district in election_results:
+                for i in range(0, len(election_results[district])):
+                    if float(percentage) > float(election_results[district][i]["percentage"]):
+                        election_results[district].insert(i, {"name": name, "party": party, "percentage": percentage})
+                        inserted = True
+                        break
+                if not inserted:
+                    election_results[district].append({
+                                                        "name": name,
+                                                        "party": party,
+                                                        "percentage": percentage
+                                                    })
+            else:
+                election_results[district] = [{
+                                                "name": name,
+                                                "party": party,
+                                                "percentage": percentage
+                                              }]
+
+    #house results
+    with open('data/2014_houseelectionresults.csv', 'r') as f:
+        reader = csv.reader(f, delimiter=";")
+        for row in reader:
+            district = row[4]
+            name = row[7].title()
+            party = row[10]
+            percentage = row[14]
+
+            inserted = False
+
+            if district in election_results:
+                for i in range(0, len(election_results[district])):
+                    if float(percentage) > float(election_results[district][i]["percentage"]):
+                        election_results[district].insert(i, {"name": name, "party": party, "percentage": percentage})
+                        inserted = True
+                        break
+                if not inserted:
+                    election_results[district].append({
+                                                        "name": name,
+                                                        "party": party,
+                                                        "percentage": percentage
+                                                    })
+            else:
+                election_results[district] = [{
+                                                "name": name,
+                                                "party": party,
+                                                "percentage": percentage
+                                            }]
+    return election_results
+
 def candidate_data():
 
     elections = OrderedDict()
@@ -45,13 +110,24 @@ def formatted_elections(elections):
 
         #tk incumbent handling to add open class and to move incumbent up list
 
+        #previous elections
+        if "State Senator" in title:
+            last_election_year = "2012"
+        else:
+            last_election_year = "2014"
+
+        last_election_results = prev_election_data().get(title)
+
         #filtering to Lege elections
         if "State Senator" in title or "State Representative" in title:
             f_elections.append({
                                     "title": title,
                                     "candidates": candidates,
-                                    "classes": classes
+                                    "classes": classes,
+                                    "last_election_year": last_election_year,
+                                    "last_election_results": last_election_results
                                 })
+
 
     return f_elections
 

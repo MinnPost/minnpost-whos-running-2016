@@ -35,6 +35,21 @@
       {% endfor %}
       </ul>
 
+      Election {{contest.last_election_year}} result:
+      <table>
+        <thead>
+          <tr><th>Candidate (Party)</th><th>Vote %</th></tr>
+        </thead>
+        <tbody>
+        {% for candidate in contest.last_election_results %}
+          <tr>
+              <td>{{candidate.name}} (<span class="color-political-{{candidate.party.lower()}}">{{candidate.party}}</span>)</td>
+              <td>{{candidate.percentage}}%</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
     </div>
 
     {% endfor %}
