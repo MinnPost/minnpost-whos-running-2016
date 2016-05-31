@@ -4,6 +4,7 @@
     .hidden {display: none;}
     .filter-links li a {padding:5px;}
     .filtering, .filtering a {color: #fff!important; background-color:#0793AB; border-radius: 5px;}
+    .mp .election {padding: 1em; border-bottom: 1px solid #ccc;}
 </style>
 
 
@@ -26,49 +27,56 @@
     {% for contest in contests %}
 
     <div class="election{{contest.classes}}">
-      <h4>{{contest.title}}</h4>
-      <div class="map-link"><a href="{{contest.map_url}}" target="_blank">District map</a></div>
-      Incumbent:
+      <div class="row">
+        <h4>{{contest.title}}</h4>
+        <div class="map-link"><a href="{{contest.map_url}}" target="_blank">District map</a></div>
 
-      <ul>
-        {% if contest.incumbent[0] == "Open seat" %}
-        <li>None - open seat</li>
+        <div class="current-race column-medium-50">
+          Incumbent:
 
-        {% else %}
-        <li><span class="color-political-{{contest.incumbent[1].lower()}}">{{contest.incumbent[0]}} ({{contest.incumbent[1]}})</span> (First elected: {{contest.incumbent[2]}})</li>
+          <ul>
+            {% if contest.incumbent[0] == "Open seat" %}
+            <li>None - open seat</li>
 
-        {% endif %}
-      </ul>
-      {% if contest.candidates %}
-      {% if contest.incumbent[0] != "Open seat" %}
-        Challengers:
-      {% else %}
-        Candidates:
-      {% endif %}
+            {% else %}
+            <li><span class="color-political-{{contest.incumbent[1].lower()}}">{{contest.incumbent[0]}} ({{contest.incumbent[1]}})</span> (First elected: {{contest.incumbent[2]}})</li>
+
+            {% endif %}
+          </ul>
+          {% if contest.candidates %}
+          {% if contest.incumbent[0] != "Open seat" %}
+            Challengers:
+          {% else %}
+            Candidates:
+          {% endif %}
 
 
-      <ul>
-      {% for candidate in contest.candidates %}
-        <li><span class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</span></li>
-      {% endfor %}
-      </ul>
-      {% endif %}
+          <ul>
+          {% for candidate in contest.candidates %}
+            <li><span class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</span></li>
+          {% endfor %}
+          </ul>
+          {% endif %}
 
-      Election {{contest.last_election_year}} result:
-      <table>
-        <thead>
-          <tr><th>Candidate (Party)</th><th>Vote %</th></tr>
-        </thead>
-        <tbody>
-        {% for candidate in contest.last_election_results %}
-          <tr>
-              <td>{{candidate.name}} (<span class="color-political-{{candidate.party.lower()}}">{{candidate.party}}</span>)</td>
-              <td>{{candidate.percentage}}%</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+        </div>
 
+        <div class="past-result column-medium-50">
+          Election {{contest.last_election_year}} result:
+          <table>
+            <thead>
+              <tr><th>Candidate (Party)</th><th>Vote %</th></tr>
+            </thead>
+            <tbody>
+            {% for candidate in contest.last_election_results %}
+              <tr>
+                  <td>{{candidate.name}} (<span class="color-political-{{candidate.party.lower()}}">{{candidate.party}}</span>)</td>
+                  <td>{{candidate.percentage}}%</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     {% endfor %}
