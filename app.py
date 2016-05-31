@@ -82,7 +82,11 @@ def candidate_data():
             candidate_party = row[5]
 
             if district in elections:
-                elections[district].append([candidate, candidate_party])
+                first_party = elections[district][0][1]
+                if candidate_party == first_party:
+                    elections[district].insert(0, [candidate, candidate_party])
+                else:
+                    elections[district].append([candidate, candidate_party])
             else:
                 elections[district] = [[candidate, candidate_party]]
 
