@@ -157,6 +157,11 @@ def formatted_elections(elections):
         else:
             classes += " greatermn"
 
+        if "State Senator" in title:
+            classes += " senate"
+        if "State Representative" in title:
+            classes += " house"
+
         #incumbent handling
         incumbents = incumbent_data()
         if title in incumbents:

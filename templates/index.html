@@ -15,6 +15,8 @@
     <div class="filter-links navigation horizontal">
         <h4>Show only:</h4>
         <ul>
+            <li><a href="#" data-filter="senate">Senate</a></li>
+            <li><a href="#" data-filter="house">House</a></li>
             <li><a href="#" data-filter="uncontested">Uncontested</a></li>
             <li><a href="#" data-filter="open-seat">Open Seat</a></li>
             <li><a href="#" data-filter="dfl-primary">DFL Primary</a></li>
@@ -120,6 +122,14 @@
         }
         if ($(this).data("filter") == "metro") {
             $('*[data-filter="greatermn"]').removeClass("filtering")
+        }
+
+        //House and Senate mutual exclusivity
+        if ($(this).data("filter") == "house") {
+            $('*[data-filter="senate"]').removeClass("filtering")
+        }
+        if ($(this).data("filter") == "senate") {
+            $('*[data-filter="house"]').removeClass("filtering")
         }
 
 
