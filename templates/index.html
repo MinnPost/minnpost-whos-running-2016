@@ -7,6 +7,9 @@
     .mp .election {padding: 1em; border-bottom: 1px solid #ccc;}
     .mp .map-link {margin: -1em 0 1em;}
     .mp #total-contests {padding-bottom: 1em; border-bottom: 1px solid #ccc;}
+    .search-box {width: 100%; margin: 0 auto 1em; text-align: center}
+    .mp .form-input-group {width:80%; margin: 0 auto;}
+    #text_search {width: 100%;}
 </style>
 
 
@@ -25,6 +28,17 @@
             <li><a href="#" data-filter="greatermn">Greater MN</a></lo>
             <li><a href="#" data-filter="reset">Show All</a></li>
         </ul>
+    </div>
+
+    <div class="search-box">
+    	<form id="search-form">
+            <div class="form-input-group">
+        	    <input id="text_search" type="text" placeholder="Search" />
+                <div class="button-group">
+                    <button type="reset" id="search-reset" class="button info">Clear</button>
+                </div>
+            </div>
+    	</form>
     </div>
 
     <div id="total-contests">
@@ -132,6 +146,57 @@
             $('*[data-filter="house"]').removeClass("filtering")
         }
 
+
+        var filters = new Array()
+        $('.filter-links a').each(function(){
+          if ($(this).hasClass("filtering")) {
+            filters.push($(this).data("filter"))
+          }
+        });
+
+        $('.election').each(function(){
+            var displaying = 1
+
+            for (f in filters) {
+              if (!$(this).hasClass(filters[f])) {
+                displaying = 0
+              }
+            }
+            if (displaying == 0) {
+              $(this).addClass("hidden")
+            } else {
+              $(this).removeClass("hidden")
+            }
+        });
+
+        showTotal();
+    });
+
+    $('#text_search').keyup(function() {
+        var filter = $(this).val()
+
+        $(".election").each(function(){
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).addClass("hidden");
+            } else {
+                $(this).removeClass("hidden");
+            }
+        })
+
+        showTotal();
+    });
+
+    $('#search-form').on("reset", function() {
+
+        var filter = ''
+
+        $(".election").each(function(){
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).addClass("hidden");
+            } else {
+                $(this).removeClass("hidden");
+            }
+        });
 
         var filters = new Array()
         $('.filter-links a').each(function(){
