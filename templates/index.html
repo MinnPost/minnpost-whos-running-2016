@@ -113,6 +113,15 @@
           $(this).toggleClass("filtering")
         }
 
+        //Metro and Greater MN mutual exclusivity
+        if ($(this).data("filter") == "greatermn") {
+            $('*[data-filter="metro"]').removeClass("filtering")
+        }
+        if ($(this).data("filter") == "metro") {
+            $('*[data-filter="greatermn"]').removeClass("filtering")
+        }
+
+
         var filters = new Array()
         $('.filter-links a').each(function(){
           if ($(this).hasClass("filtering")) {
