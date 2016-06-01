@@ -2,7 +2,7 @@
 
 <style>
     .hidden {display: none;}
-    .filter-links li a {padding:5px;}
+    .filter-links li a {padding:5px; font-size: .8em;}
     .filtering, .filtering a {color: #fff!important; background-color:#0793AB; border-radius: 5px;}
     .mp .election {padding: 1em; border-bottom: 1px solid #ccc;}
     .mp .map-link {margin: -1em 0 1em;}
@@ -39,7 +39,7 @@
         <div class="current-race column-medium-50">
           <strong>Incumbent:</strong>
 
-          <ul>
+          <ul class="candidate-list">
             {% if contest.incumbent[0] == "Open seat" %}
             <li>None - open seat</li>
 
@@ -56,7 +56,7 @@
           {% endif %}
 
 
-          <ul>
+          <ul class="candidate-list">
           {% for candidate in contest.candidates %}
             <li><span class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</span></li>
           {% endfor %}
