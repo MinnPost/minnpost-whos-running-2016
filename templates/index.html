@@ -60,7 +60,7 @@
             <li>None - open seat</li>
 
             {% else %}
-            <li><span class="color-political-{{contest.incumbent[1].lower()}}">{{contest.incumbent[0]}} ({{contest.incumbent[1]}})</span> (First elected: {{contest.incumbent[2]}})</li>
+            <li class="candidate"><span class="color-political-{{contest.incumbent[1].lower()}}">{{contest.incumbent[0]}} ({{contest.incumbent[1]}})</span> (First elected: {{contest.incumbent[2]}})</li>
 
             {% endif %}
           </ul>
@@ -74,7 +74,7 @@
 
           <ul class="candidate-list">
           {% for candidate in contest.candidates %}
-            <li><span class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</span></li>
+            <li class="candidate"><span class="color-political-{{candidate[1].lower()}}">{{candidate[0]}} ({{candidate[1]}})</span></li>
           {% endfor %}
           </ul>
           {% endif %}
@@ -111,14 +111,20 @@
     function showTotal() {
         var total = $('.election').length
         var displaying = 0
+        var candidates = 0
         $('.election').each(function(){
             if( !$(this).hasClass("hidden") ) {
                 displaying++
+                $('.candidate',this).each(function(){
+                  candidates++
+                });
             }
         });
 
-        $('#total-contests').html("Displaying <strong>" + displaying + "</strong> " +
-                                   "races of <strong>" + total + "</strong> total.");
+
+        $('#total-contests').html("Displaying <strong>" + candidates + "</strong> candidates "+
+                                  "in <strong>" + displaying + "</strong> " +
+                                   "races (out of <strong>" + total + "</strong> total races.)");
     };
 
     $('.filter-links a').click(function(e){
