@@ -120,7 +120,9 @@
                                    "races of <strong>" + total + "</strong> total.");
     };
 
-    $('.filter-links a').click(function(){
+    $('.filter-links a').click(function(e){
+
+        e.preventDefault();
 
         if ($(this).data("filter") == "reset") {
           $('.filter-links a').each(function(){
